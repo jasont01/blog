@@ -12,14 +12,16 @@ const Featured = ({ setSnackBar }) => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/admin/config`)
-      .then((res) => setConfig(res.data.featured_post))
+      .get(`${process.env.REACT_APP_API_URL}/posts/featured`)
+      .then((res) => {
+        if (res.data) setConfig(res.data);
+      })
       .catch((err) => console.error(err));
   }, []);
 
   const handleSubmit = () => {
     axios
-      .put(`${process.env.REACT_APP_API_URL}/admin/config`, config)
+      .put(`${process.env.REACT_APP_API_URL}/admin/featured`, config)
       .then((res) =>
         setSnackBar({
           isOpen: true,

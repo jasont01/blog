@@ -6,18 +6,21 @@ import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
 
-function FeaturedPost() {
-  const [featured, setFeatured] = useState({
-    title: '',
-    description: '',
-    image: '',
-    url: '',
-  });
+const defaultFeatured = {
+  title: 'Featured Post Title',
+  description:
+    "Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.",
+  image: 'https://source.unsplash.com/random',
+  url: '#',
+};
+
+const FeaturedPost = () => {
+  const [featured, setFeatured] = useState(defaultFeatured);
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/admin/config`)
-      .then((res) => setFeatured(res.data.featured_post))
+      .get(`${process.env.REACT_APP_API_URL}/posts/featured`)
+      .then((res) => setFeatured({ ...defaultFeatured, ...res.data }))
       .catch((err) => console.error(err));
   }, []);
 
@@ -74,6 +77,6 @@ function FeaturedPost() {
       </Grid>
     </Paper>
   );
-}
+};
 
 export default FeaturedPost;
