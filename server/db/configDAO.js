@@ -14,39 +14,40 @@ export default class ConfigDAO {
     }
   }
 
-  static async verifyConfig() {
+  // static async verifyConfig() {
+  //   try {
+  //     const count = await collection.countDocuments();
+  //     return count > 0;
+  //   } catch (e) {
+  //     console.error(`Unable to verify config, ${e}`);
+  //     return {};
+  //   }
+  // }
+
+  static async getFeaturedPost() {
     try {
-      const count = await collection.countDocuments();
-      return count > 0;
+      const config = await collection.findOne({});
+      return config.featured_post;
     } catch (e) {
-      console.error(`Unable to verify config, ${e}`);
+      console.error(`Unable to get featured post, ${e}`);
       return {};
     }
   }
 
-  static async getConfig() {
-    try {
-      return await collection.findOne({});
-    } catch (e) {
-      console.error(`Unable to get config, ${e}`);
-      return {};
-    }
-  }
+  // static async createDefaultConfig(defaultConfig) {
+  //   try {
+  //     return await collection.insertOne(defaultConfig);
+  //   } catch (e) {
+  //     console.error(`Unable to create default config: ${e}`);
+  //     return { error: e };
+  //   }
+  // }
 
-  static async createDefaultConfig(defaultConfig) {
-    try {
-      return await collection.insertOne(defaultConfig);
-    } catch (e) {
-      console.error(`Unable to create default config: ${e}`);
-      return { error: e };
-    }
-  }
-
-  static async updateConfig(config) {
+  static async updateFeaturedPost(featuedPost) {
     try {
       return await collection.updateOne(
         {},
-        { $set: { featured_post: config } }
+        { $set: { featured_post: featuedPost } }
       );
     } catch (e) {
       console.error(`Unable to update config: ${e}`);
@@ -54,12 +55,31 @@ export default class ConfigDAO {
     }
   }
 
-  static async deleteConfig() {
+  static async updateUser(userObj) {
     try {
-      return await collection.deleteOne({});
+      return await collection.updateOne({}, { $set: { admin: userObj } });
     } catch (e) {
-      console.error(`Unable to delete post: ${e}`);
+      console.error(`Unable to update user config: ${e}`);
+    }
+  }
+
+  static async getAdminCredentials() {
+    try {
+      const doc = await collection.findOne({});
+      const adminUsername = doc.admin.username;
+      const hash = doc.admin.password;
+      return { adminUsername, hash };
+    } catch (e) {
       return { error: e };
     }
   }
+
+  // static async deleteConfig() {
+  //   try {
+  //     return await collection.deleteOne({});
+  //   } catch (e) {
+  //     console.error(`Unable to delete post: ${e}`);
+  //     return { error: e };
+  //   }
+  // }
 }

@@ -1,28 +1,46 @@
+import ConfigDAO from '../db/configDAO.js';
 import PostsDAO from '../db/postsDAO.js';
 
 export default class PostsController {
+  static async apiGetFeaturedPost(req, res) {
+    try {
+      const featuredPost = await ConfigDAO.getFeaturedPost();
+      res.status(200).json(featuredPost);
+    } catch (err) {
+      res.status(500).json({ error: err });
+    }
+  }
+
   static async apiGetPosts(req, res) {
     const page = req.query.page ? parseInt(req.query.page, 10) : 0;
     const postsPerPage = req.query.postsPerPage
       ? parseInt(req.query.postsPerPage)
       : 5;
-    const { posts, totalNumPosts } = await PostsDAO.getPosts({
-      page,
-      postsPerPage,
-    });
+    try {
+      const { posts, totalNumPosts } = await PostsDAO.getPosts({
+        page,
+        postsPerPage,
+      });
 
-    let response = { posts, totalNumPosts };
-    res.json(response);
+      let response = { posts, totalNumPosts };
+      res.json(response);
+    } catch (err) {
+      res.status(500).json({ error: err });
+    }
   }
 
   static async apiGetPostById(req, res) {
     const id = req.params.id || {};
-    const post = await PostsDAO.getPostByID(id);
-    if (!post) {
-      res.sendStatus(404);
-      return;
+    try {
+      const post = await PostsDAO.getPostByID(id);
+      if (!post) {
+        res.sendStatus(404);
+        return;
+      }
+      res.json(post);
+    } catch (err) {
+      res.status(500).json({ error: err });
     }
-    res.json(post);
   }
 
   static async apiCreatePost(req, res) {
