@@ -2,20 +2,20 @@ import { useState, useEffect } from 'react';
 import { Box, TextField, Button } from '@material-ui/core';
 import axios from 'axios';
 
+const formFields = {
+  title: '',
+  description: '',
+  image: '',
+  url: '',
+};
+
 const Featured = ({ setSnackBar }) => {
-  const [config, setConfig] = useState({
-    title: '',
-    description: '',
-    image: '',
-    url: '',
-  });
+  const [config, setConfig] = useState(formFields);
 
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/posts/featured`)
-      .then((res) => {
-        if (res.data) setConfig(res.data);
-      })
+      .then((res) => setConfig({ ...formFields, ...res.data }))
       .catch((err) => console.error(err));
   }, []);
 
