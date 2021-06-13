@@ -9,7 +9,7 @@ const Create = ({ setSnackBar }) => {
 
   const createNewPost = (post) => {
     axios
-      .post(`${process.env.REACT_APP_API_URL}/posts`, post)
+      .post(`${process.env.REACT_APP_API_URL}/admin/post`, post)
       .then((res) => {
         setSnackBar({
           isOpen: true,

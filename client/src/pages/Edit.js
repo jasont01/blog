@@ -26,7 +26,10 @@ const Edit = ({ setSnackBar }) => {
 
   const updatePost = (post) => {
     axios
-      .put(`${process.env.REACT_APP_API_URL}/posts`, { ...post, post_id: id })
+      .put(`${process.env.REACT_APP_API_URL}/admin/post`, {
+        ...post,
+        post_id: id,
+      })
       .then((res) => {
         setSnackBar({
           isOpen: true,

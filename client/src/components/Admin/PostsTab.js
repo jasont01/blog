@@ -36,7 +36,7 @@ const Posts = ({ setSnackBar }) => {
 
   const handleDeletePost = (id) => {
     axios
-      .delete(`${process.env.REACT_APP_API_URL}/posts?postId=${id}`)
+      .delete(`${process.env.REACT_APP_API_URL}/admin/post?postId=${id}`)
       .then((res) => {
         setSnackBar({
           isOpen: true,
