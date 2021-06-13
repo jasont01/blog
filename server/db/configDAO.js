@@ -1,5 +1,4 @@
 let collection;
-
 export default class ConfigDAO {
   static async injectDB(conn) {
     if (collection) {
@@ -14,16 +13,6 @@ export default class ConfigDAO {
     }
   }
 
-  // static async verifyConfig() {
-  //   try {
-  //     const count = await collection.countDocuments();
-  //     return count > 0;
-  //   } catch (e) {
-  //     console.error(`Unable to verify config, ${e}`);
-  //     return {};
-  //   }
-  // }
-
   static async getFeaturedPost() {
     try {
       const config = await collection.findOne({});
@@ -33,15 +22,6 @@ export default class ConfigDAO {
       return {};
     }
   }
-
-  // static async createDefaultConfig(defaultConfig) {
-  //   try {
-  //     return await collection.insertOne(defaultConfig);
-  //   } catch (e) {
-  //     console.error(`Unable to create default config: ${e}`);
-  //     return { error: e };
-  //   }
-  // }
 
   static async updateFeaturedPost(featuedPost) {
     try {
@@ -73,13 +53,4 @@ export default class ConfigDAO {
       return { error: e };
     }
   }
-
-  // static async deleteConfig() {
-  //   try {
-  //     return await collection.deleteOne({});
-  //   } catch (e) {
-  //     console.error(`Unable to delete post: ${e}`);
-  //     return { error: e };
-  //   }
-  // }
 }

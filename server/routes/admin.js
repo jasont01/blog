@@ -9,8 +9,6 @@ router.use((req, res, next) => {
   next();
 });
 
-//router.route('/config').post(AdminCtrl.apiResetConfig);
-//router.route('/config').delete(AdminCtrl.apiDeleteConfig);
 router.route('/featured').put(AdminCtrl.apiUpdateFeaturedPost);
 router.route('/user').put(AdminCtrl.apiUpdateUser);
 
