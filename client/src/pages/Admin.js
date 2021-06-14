@@ -2,21 +2,28 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Button, Typography, Tabs, Tab } from '@material-ui/core';
 
+import TabPanel from '../components/Admin/TabPanel';
 import PostsTab from '../components/Admin/PostsTab';
 import FeaturedTab from '../components/Admin/FeaturedTab';
-import TabPanel from '../components/Admin/TabPanel';
+import UserTab from '../components/Admin/UserTab';
 
-const Admin = ({ setSnackBar }) => {
+const Admin = ({ setSnackBar, adminUser }) => {
   const [currentTab, setCurrentTab] = useState(0);
 
   const adminTabs = [
     {
       label: 'Posts',
-      component: <PostsTab setSnackBar={setSnackBar} />,
+      component: <PostsTab setSnackBar={setSnackBar} token={adminUser.token} />,
     },
     {
       label: 'Featured',
-      component: <FeaturedTab setSnackBar={setSnackBar} />,
+      component: (
+        <FeaturedTab setSnackBar={setSnackBar} token={adminUser.token} />
+      ),
+    },
+    {
+      label: 'Admin User',
+      component: <UserTab setSnackBar={setSnackBar} adminUser={adminUser} />,
     },
   ];
 

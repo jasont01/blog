@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Redirect } from 'react-router';
+import { Redirect } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { Box, Typography } from '@material-ui/core';
 import axios from 'axios';
 import Editor from '../components/Editor';
 
-const Edit = ({ setSnackBar }) => {
+const Edit = ({ setSnackBar, adminUser }) => {
   const { id } = useParams();
   const [post, setPost] = useState({});
   const [redirect, setRedirect] = useState('');
@@ -26,10 +26,16 @@ const Edit = ({ setSnackBar }) => {
 
   const updatePost = (post) => {
     axios
-      .put(`${process.env.REACT_APP_API_URL}/admin/post`, {
-        ...post,
-        post_id: id,
-      })
+      .put(
+        `${process.env.REACT_APP_API_URL}/admin/post`,
+        {
+          ...post,
+          post_id: id,
+        },
+        {
+          headers: { Authorization: `Bearer ${adminUser.token}` },
+        }
+      )
       .then((res) => {
         setSnackBar({
           isOpen: true,

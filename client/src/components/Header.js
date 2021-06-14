@@ -1,23 +1,27 @@
 import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
+import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { ReactComponent as Logo } from '../assets/logo.svg';
 
-function Header() {
+const Header = ({ isLogedIn, handleLogin }) => {
+  const adminBtn = () => <Link to='/admin'>admin</Link>;
+
   return (
     <>
       <Toolbar sx={{ justifyContent: 'flex-end' }}>
-        <Link to='/admin'>admin</Link>
         <IconButton>
           <SearchIcon />
         </IconButton>
-        <Button variant='contained' size='small' sx={{ margin: '10px' }}>
-          Log In
-        </Button>
-        <Button variant='outlined' size='small'>
-          Sign up
+        {isLogedIn && adminBtn()}
+        <Button
+          variant='contained'
+          size='small'
+          sx={{ margin: '10px' }}
+          onClick={handleLogin}
+        >
+          {isLogedIn ? 'Log Out' : 'Log In'}
         </Button>
       </Toolbar>
       <Toolbar
@@ -37,6 +41,6 @@ function Header() {
       </Toolbar>
     </>
   );
-}
+};
 
 export default Header;

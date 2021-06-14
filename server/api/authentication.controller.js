@@ -14,12 +14,15 @@ export default class AdminController {
         return;
       }
       bcrypt.compare(password, hash, (err, result) => {
-        if (result === true) {
+        if (result) {
           const payload = { username };
           const token = jwt.sign(payload, process.env.SECRET, {
             expiresIn: '1h',
           });
-          res.cookie('token', token, { httpOnly: true }).sendStatus(200);
+          res
+            .cookie('token', token, { httpOnly: true })
+            .status(200)
+            .json({ username, token });
         } else {
           res.sendStatus(401);
         }

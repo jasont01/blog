@@ -3,6 +3,6 @@ import AuthCtrl from '../api/authentication.controller.js';
 
 const router = express.Router();
 
-router.route('/').get(AuthCtrl.apiValidateUser);
+router.route('/').post(AuthCtrl.apiValidateUser);
 
 export default router;

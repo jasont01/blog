@@ -16,7 +16,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router';
 import { format } from 'date-fns';
 
-const Posts = ({ setSnackBar }) => {
+const Posts = ({ setSnackBar, token }) => {
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -36,7 +36,9 @@ const Posts = ({ setSnackBar }) => {
 
   const handleDeletePost = (id) => {
     axios
-      .delete(`${process.env.REACT_APP_API_URL}/admin/post?postId=${id}`)
+      .delete(`${process.env.REACT_APP_API_URL}/admin/post?postId=${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((res) => {
         setSnackBar({
           isOpen: true,

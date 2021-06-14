@@ -9,7 +9,7 @@ const formFields = {
   url: '',
 };
 
-const Featured = ({ setSnackBar }) => {
+const Featured = ({ setSnackBar, token }) => {
   const [config, setConfig] = useState(formFields);
 
   useEffect(() => {
@@ -21,7 +21,9 @@ const Featured = ({ setSnackBar }) => {
 
   const handleSubmit = () => {
     axios
-      .put(`${process.env.REACT_APP_API_URL}/admin/featured`, config)
+      .put(`${process.env.REACT_APP_API_URL}/admin/featured`, config, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((res) =>
         setSnackBar({
           isOpen: true,
@@ -33,7 +35,7 @@ const Featured = ({ setSnackBar }) => {
         setSnackBar({
           isOpen: true,
           severity: 'error',
-          msg: `Error: ${err}`,
+          msg: `${err}`,
         })
       );
   };
@@ -52,6 +54,8 @@ const Featured = ({ setSnackBar }) => {
         label='Title'
         value={config.title}
         variant='standard'
+        error={!config.title}
+        helperText={!config.title && 'cannnot be blank'}
         onChange={(e) => setConfig({ ...config, title: e.target.value })}
       />
       <TextField
@@ -60,6 +64,8 @@ const Featured = ({ setSnackBar }) => {
         multiline
         value={config.description}
         variant='standard'
+        error={!config.description}
+        helperText={!config.description && 'cannnot be blank'}
         onChange={(e) => setConfig({ ...config, description: e.target.value })}
       />
       <TextField
@@ -67,6 +73,8 @@ const Featured = ({ setSnackBar }) => {
         label='Image URL'
         value={config.image}
         variant='standard'
+        error={!config.image}
+        helperText={!config.image && 'cannnot be blank'}
         onChange={(e) => setConfig({ ...config, image: e.target.value })}
       />
       <TextField
@@ -74,9 +82,18 @@ const Featured = ({ setSnackBar }) => {
         label='URL'
         value={config.url}
         variant='standard'
+        error={!config.url}
+        helperText={!config.url && 'cannnot be blank'}
         onChange={(e) => setConfig({ ...config, url: e.target.value })}
       />
-      <Button onClick={handleSubmit}>Save</Button>
+      <Button
+        disabled={
+          !config.title || !config.description || !config.image || !config.url
+        }
+        onClick={handleSubmit}
+      >
+        Save
+      </Button>
     </Box>
   );
 };

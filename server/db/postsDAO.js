@@ -43,43 +43,6 @@ export default class PostsDAO {
 
   static async getPostByID(id) {
     try {
-      // const pipeline = [
-      //   {
-      //     $match: {
-      //       _id: new ObjectId(id),
-      //     },
-      //   },
-      //   {
-      //     $lookup: {
-      //       from: 'comments',
-      //       let: {
-      //         id: '$_id',
-      //       },
-      //       pipeline: [
-      //         {
-      //           $match: {
-      //             $expr: {
-      //               $eq: ['$post_id', '$$id'],
-      //             },
-      //           },
-      //         },
-      //         {
-      //           $sort: {
-      //             date: -1,
-      //           },
-      //         },
-      //       ],
-      //       as: 'comments',
-      //     },
-      //   },
-      //   {
-      //     $addFields: {
-      //       reviews: '$comments',
-      //     },
-      //   },
-      // ];
-      // return await collection.aggregate(pipeline).next();
-
       return await collection.findOne({ _id: ObjectId(id) });
     } catch (e) {
       console.error(`Something went wrong in getPostByID: ${e}`);

@@ -4,7 +4,7 @@ import { Box, TextField, Button } from '@material-ui/core';
 import MDEditor from '@uiw/react-md-editor';
 
 const Editor = ({ title = '', article = '', handleSubmit }) => {
-  const [titleField, setTitleField] = useState('');
+  const [titleField, setTitleField] = useState();
   const [articleField, setArticleField] = useState('');
   const [redirect, setRedirect] = useState('');
 
@@ -20,6 +20,7 @@ const Editor = ({ title = '', article = '', handleSubmit }) => {
       <Box>
         <TextField
           label='Article Title'
+          required
           variant='standard'
           value={titleField}
           onChange={(e) => setTitleField(e.target.value)}
@@ -36,6 +37,7 @@ const Editor = ({ title = '', article = '', handleSubmit }) => {
         <Button onClick={() => setRedirect('/admin')}>Cancel</Button>
         <Button
           sx={{ marginLeft: '16px' }}
+          disabled={!titleField || !articleField}
           onClick={() =>
             handleSubmit({
               title: titleField,

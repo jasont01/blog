@@ -35,9 +35,6 @@ function Main({ title }) {
         },
       }}
     >
-      {/* <Typography variant='h6' gutterBottom>
-        Blog Posts
-      </Typography> */}
       <Divider />
       <Grid container flexDirection='column'>
         {posts.map((post) => (

@@ -35,9 +35,19 @@ export default class ConfigDAO {
     }
   }
 
-  static async updateUser(userObj) {
+  static async updateUser(username, hash) {
     try {
-      return await collection.updateOne({}, { $set: { admin: userObj } });
+      if (hash) {
+        return await collection.updateOne(
+          {},
+          { $set: { admin: { username, password: hash } } }
+        );
+      } else {
+        return await collection.updateOne(
+          {},
+          { $set: { 'admin.username': username } }
+        );
+      }
     } catch (e) {
       console.error(`Unable to update user config: ${e}`);
     }

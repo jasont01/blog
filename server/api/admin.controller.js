@@ -17,10 +17,14 @@ export default class AdminController {
     try {
       const username = req.body.username;
       const password = req.body.password;
-      bcrypt.hash(password, saltRounds, async (err, hash) => {
-        await ConfigDAO.updateUser({ username: username, password: hash });
-        res.sendStatus(200);
-      });
+      if (password) {
+        bcrypt.hash(password, saltRounds, async (err, hash) => {
+          await ConfigDAO.updateUser(username, hash);
+        });
+      } else {
+        await ConfigDAO.updateUser(username);
+      }
+      res.sendStatus(200);
     } catch (e) {
       res.status(500).json({ error: e.message });
     }
